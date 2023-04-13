@@ -6,6 +6,13 @@ ___
 
 ## getting started
 
+### setup env
+
+`cp .env_template .env`
+`code .env`
+
+- populate values
+
 ### install pyenv
 
 #### [*nix](https://github.com/pyenv/pyenv)
