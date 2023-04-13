@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "hoover-bot"
+version = "0.1.0"
+description = "Listen To This bot"
+authors = ["codyconfer <mail@codyconfer.me>"]
+readme = "README.md"
+packages = [{include = "hoover_bot"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+discord-py = "^2.2.2"
+python-dotenv = "^1.0.0"
+pydantic = "^1.10.7"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
