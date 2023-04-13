@@ -9,6 +9,7 @@ ___
 ### setup env
 
 `cp .env_template .env`
+
 `code .env`
 
 - populate values
