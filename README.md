@@ -36,6 +36,14 @@ install [poetry 1.4^](https://python-poetry.org/docs/)
 
 ___
 
+## formatting
+
+to format project, run the following command in the project directory
+
+`poetry run black ./src`
+
+___
+
 ## references
 
 ### [poetry](https://python-poetry.org/)
