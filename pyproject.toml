@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Listen To This bot"
 authors = ["codyconfer <mail@codyconfer.me>"]
 readme = "README.md"
-packages = [{include = "hoover_bot"}]
+packages = [{include = "src/*"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"

@@ -32,7 +32,7 @@ install [poetry 1.4^](https://python-poetry.org/docs/)
 
 `poetry install`
 
-`poetry run python -m main.py`
+`poetry run python src/main.py`
 
 ___
 
