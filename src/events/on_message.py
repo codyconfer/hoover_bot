@@ -2,6 +2,8 @@ import logging
 from discord.ext import commands
 from discord.message import Message
 from action_handler import ActionHandler
+from actions.sort_links import SortLinks
+from channels import general_id
 from console import COLORS, contextualize
 
 log = logging.getLogger()
@@ -24,6 +26,8 @@ class OnMessage(ActionHandler):
             log.info("message is from bot")
             return
         response = self.match_response()
+        if self.msg.channel.id == general_id:
+            await SortLinks(self.bot, self.msg).action()
         if response and len(response):
             log.info(f"sending {response} to {contextualize(self.msg.channel.name, COLORS.Cyan)}")
             await self.msg.channel.send(response)
