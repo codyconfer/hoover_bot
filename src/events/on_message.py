@@ -17,18 +17,20 @@ class OnMessage(ActionHandler):
         self.msg = message
 
     def match_response(self):
-        match self.msg.content:
+        match self.msg.content.lower():
             case "$hello":
                 return "Hello!"
+            case n if "hitler" in n:
+                return "HITLER!"
 
     async def action(self):
         if self.msg.author == self.bot.user:
             log.info("message is from bot")
             return
         response = self.match_response()
-        if self.msg.channel.id == general_id:
-            await SortLinks(self.bot, self.msg).action()
         if response and len(response):
             log.info(f"sending {response} to {contextualize(self.msg.channel.name, COLORS.Cyan)}")
             await self.msg.channel.send(response)
+        if self.msg.channel.id == general_id:
+            await SortLinks(self.bot, self.msg).action()
         await self.bot.process_commands(self.msg)
