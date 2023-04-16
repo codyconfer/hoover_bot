@@ -32,7 +32,7 @@ class SortLinks(ActionHandler):
             else:
                 log.info("no new spotify urls")
 
-    async def post_new_urls(self, new_urls: []):
+    async def post_new_urls(self, new_urls: set):
         message_header = f"\n recommendation by {self.message.author.mention}\n"
         message_urls = str.join("\n", new_urls)
         response = f"{message_header} > {message_urls}"
@@ -57,7 +57,7 @@ class SortLinks(ActionHandler):
     async def check_repost(self, key: int, general_urls: []):
         match key:
             case spotify_id:
-                return list(await self.check_channel_history(spotify_id, general_urls))
+                return await self.check_channel_history(spotify_id, general_urls)
 
     async def check_channel_history(self, key: int, general_urls: []):
         bot: Bot = self.bot
