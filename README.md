@@ -17,33 +17,12 @@ ___
 ### running with docker
 
 > for debugging dockerfile
+> 
 > `docker build -t hoover-bot --progress=plain --no-cache  .`
 
 `docker build -t hoover-bot .`
 
 `docker run --env-file ./.env -d hoover-bot`
-
-### running locally
-
-#### install pyenv
-
-##### [*nix](https://github.com/pyenv/pyenv)
-
-##### [windows](https://github.com/pyenv-win/pyenv-win)
-
-#### install poetry
-
-`pyenv install 3.11`
-
-`pyenv global 3.11`
-
-install [poetry 1.4^](https://python-poetry.org/docs/)
-
-#### run program
-
-`poetry install`
-
-`poetry run python src/main.py`
 
 ___
 
