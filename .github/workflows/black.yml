@@ -1,0 +1,15 @@
+name: Python Black Format Check
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: python black format check
+      uses: DataDog/action-py-black-formatter@v2.5
