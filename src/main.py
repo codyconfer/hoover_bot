@@ -1,15 +1,13 @@
-import logging
 import discord
+from discord.ext.commands import Context
 from discord.ext import commands
-from config import CONFIG
+from discord.message import Message
+from config import CONFIG, configure_logging
+from commands.clean import Clean
 from events.on_message import OnMessage
+from events.on_ready import OnReady
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s |  %(levelname)s - %(message)s",
-    datefmt="%m/%d/%Y %I:%M:%S %p",
-)
-log = logging.getLogger()
+log = configure_logging()
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -18,16 +16,17 @@ bot = commands.Bot(command_prefix="/", intents=intents)
 
 @bot.event
 async def on_ready():
-    log.info(f"{bot.user} has connected to Discord!")
+    await OnReady(bot).action()
 
 
 @bot.event
-async def on_message(message):
-    if message.author == bot.user:
-        log.info("message is from bot")
-        return
-    handler = OnMessage(bot)
-    await handler.handle_hello(message)
+async def on_message(message: Message):
+    await OnMessage(bot, message).action()
+
+
+@bot.command(name="clean")
+async def clean(ctx: Context):
+    await Clean(bot, ctx).action()
 
 
 bot.run(CONFIG.TOKEN)
