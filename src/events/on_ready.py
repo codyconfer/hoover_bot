@@ -12,4 +12,6 @@ class OnReady(ActionHandler):
         super().__init__(_bot)
 
     async def action(self):
-        log.info(f"{contextualize(self.bot.user.name, COLORS.Bright_Magenta)} has connected to Discord!")
+        log.info(
+            f"{contextualize(self.bot.user.name, COLORS.Bright_Magenta)} has connected to Discord!"
+        )

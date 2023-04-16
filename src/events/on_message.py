@@ -4,7 +4,7 @@ from discord.message import Message
 from action_handler import ActionHandler
 from actions.sort_links import SortLinks
 from channels import general_id
-from console import COLORS, contextualize
+from actions.log_formatters import log_response, log_incoming
 
 log = logging.getLogger()
 
@@ -27,9 +27,12 @@ class OnMessage(ActionHandler):
         if self.msg.author == self.bot.user:
             log.debug("message is from bot")
             return
+        log.info(
+            log_incoming(self.msg.channel.name, self.msg.author.name, self.msg.content)
+        )
         response = self.match_response()
         if response and len(response):
-            log.info(f"sending {contextualize(response, COLORS.Yellow)} to {contextualize(self.msg.channel.name, COLORS.Cyan)}")
+            log.info(log_response(self.msg.channel.name, self.bot.user.name, response))
             await self.msg.channel.send(response)
         if self.msg.channel.id == general_id:
             await SortLinks(self.bot, self.msg).action()
