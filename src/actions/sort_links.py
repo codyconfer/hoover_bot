@@ -12,6 +12,7 @@ from channels import (
     bot_testing_id,
     history_limit,
 )
+from actions.log_formatters import log_response
 
 log = logging.getLogger()
 
@@ -34,14 +35,15 @@ class SortLinks(ActionHandler):
         if len(service_urls):
             new_urls = await self.check_repost(key, service_urls)
             if len(new_urls):
-                message_header = f"\n *recommendation by* {self.message.author.mention}\n"
-                message_urls = str.join("\n", new_urls)
-                response = f"{message_header} > {message_urls}"
-                bot: Bot = self.bot
-                channel = bot.get_channel(key)
-                log.info(f"sending to {contextualize(channel.name, COLORS.Cyan)}")
-                log.info(f"{response}")
+                response = self.build_message()
+                channel = self.bot.get_channel(key)
+                log.info(log_response(channel.name, self.bot.user.name, response))
                 await channel.send(response)
+
+    def build_message(self):
+        message_header = f"\n *recommendation by* {self.message.author.mention}\n"
+        message_urls = str.join("\n", new_urls)
+        return f"{message_header} > {message_urls}"
 
     @staticmethod
     def match_url(key: int, msg: str):
@@ -49,15 +51,14 @@ class SortLinks(ActionHandler):
         msg_match = re.search(url_rexp, msg)
         urls = []
         if msg_match:
-            for segment in msg.split(' '):
+            for segment in msg.split(" "):
                 segment_match = re.search(url_rexp, segment)
                 if segment_match and match_map[key] in segment:
                     urls.append(segment)
         return msg_match, urls
 
     async def check_repost(self, key: int, general_urls: []):
-        bot: Bot = self.bot
-        channel = bot.get_channel(key)
+        channel = self.bot.get_channel(key)
         messages = [item async for item in channel.history(limit=history_limit)]
         sorted_urls = []
         for msg in messages:
