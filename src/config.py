@@ -15,7 +15,7 @@ CONFIG = _Config()
 def configure_logging(name=None) -> logging.Logger:
     logging.basicConfig(
         level=logging.INFO,
-        format="%(asctime)s |  %(levelname)s - %(message)s",
+        format="%(levelname)s - %(message)s",
         datefmt="%m/%d/%Y %I:%M:%S %p",
     )
     return logging.getLogger(name)
