@@ -8,6 +8,7 @@ from console import COLORS, contextualize
 from channels import (
     match_map,
     spotify_id,
+    soundcloud_id,
     bot_testing_id,
     history_limit,
 )
@@ -25,22 +26,22 @@ class SortLinks(ActionHandler):
     async def action(self):
         msg = self.message.content
         _, spotify_urls = self.match_url(spotify_id, msg)
-        if len(spotify_urls):
-            new_urls = await self.check_repost(spotify_id, spotify_urls)
-            if len(new_urls):
-                await self.post_new_urls(new_urls)
-            else:
-                log.info("no new spotify urls")
+        await self.post_new_urls(spotify_id, spotify_urls)
+        _, soundcloud_urls = self.match_url(soundcloud_id, msg)
+        await self.post_new_urls(soundcloud_id, soundcloud_urls)
 
-    async def post_new_urls(self, new_urls: set):
-        message_header = f"\n *recommendation by* {self.message.author.mention}\n"
-        message_urls = str.join("\n", new_urls)
-        response = f"{message_header} > {message_urls}"
-        bot: Bot = self.bot
-        channel = bot.get_channel(spotify_id)
-        log.info(f"sending to {contextualize(channel.name, COLORS.Cyan)}")
-        log.info(f"{response}")
-        await channel.send(response)
+    async def post_new_urls(self, key: int, service_urls: []):
+        if len(service_urls):
+            new_urls = await self.check_repost(key, service_urls)
+            if len(new_urls):
+                message_header = f"\n *recommendation by* {self.message.author.mention}\n"
+                message_urls = str.join("\n", new_urls)
+                response = f"{message_header} > {message_urls}"
+                bot: Bot = self.bot
+                channel = bot.get_channel(key)
+                log.info(f"sending to {contextualize(channel.name, COLORS.Cyan)}")
+                log.info(f"{response}")
+                await channel.send(response)
 
     @staticmethod
     def match_url(key: int, msg: str):
@@ -55,11 +56,6 @@ class SortLinks(ActionHandler):
         return msg_match, urls
 
     async def check_repost(self, key: int, general_urls: []):
-        match key:
-            case spotify_id:
-                return await self.check_channel_history(spotify_id, general_urls)
-
-    async def check_channel_history(self, key: int, general_urls: []):
         bot: Bot = self.bot
         channel = bot.get_channel(key)
         messages = [item async for item in channel.history(limit=history_limit)]

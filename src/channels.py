@@ -12,5 +12,5 @@ match_map = {
     spotify_id: "open.spotify.com",
     youtube_id: False,
     apple_music_id: False,
-    soundcloud_id: False,
+    soundcloud_id: "soundcloud.com",
 }
