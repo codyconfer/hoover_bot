@@ -33,7 +33,7 @@ class SortLinks(ActionHandler):
                 log.info("no new spotify urls")
 
     async def post_new_urls(self, new_urls: set):
-        message_header = f"\n recommendation by {self.message.author.mention}\n"
+        message_header = f"\n *recommendation by* {self.message.author.mention}\n"
         message_urls = str.join("\n", new_urls)
         response = f"{message_header} > {message_urls}"
         bot: Bot = self.bot
