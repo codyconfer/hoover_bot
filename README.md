@@ -28,13 +28,17 @@ ___
 
 ## formatting
 
-to format project, run the following command in the project directory
+to comply with code standards when developing for this repo.
 
-`poetry run black ./src`
+install and run [black](https://black.readthedocs.io/en/stable/getting_started.html) on `./src`
 
 ___
 
 ## references
+
+### [black](https://black.readthedocs.io/en/stable/getting_started.html)
+
+*formatter and coding standards*
 
 ### [poetry](https://python-poetry.org/)
 
