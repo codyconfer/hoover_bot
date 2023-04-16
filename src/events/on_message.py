@@ -25,11 +25,11 @@ class OnMessage(ActionHandler):
 
     async def action(self):
         if self.msg.author == self.bot.user:
-            log.info("message is from bot")
+            log.debug("message is from bot")
             return
         response = self.match_response()
         if response and len(response):
-            log.info(f"sending {response} to {contextualize(self.msg.channel.name, COLORS.Cyan)}")
+            log.info(f"sending {contextualize(response, COLORS.Yellow)} to {contextualize(self.msg.channel.name, COLORS.Cyan)}")
             await self.msg.channel.send(response)
         if self.msg.channel.id == general_id:
             await SortLinks(self.bot, self.msg).action()
