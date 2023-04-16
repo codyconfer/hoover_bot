@@ -1,0 +1,15 @@
+name: Pylint
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11"]
+    steps:
+      - name: Python Black
+        uses: cytopia/docker-black@0.11
+        with:
+          path: ./src
