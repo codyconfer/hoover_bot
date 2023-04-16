@@ -14,13 +14,24 @@ ___
 
 - populate values
 
-### install pyenv
+### running with docker
 
-#### [*nix](https://github.com/pyenv/pyenv)
+> for debugging dockerfile
+> `docker build -t hoover-bot --progress=plain --no-cache  .`
 
-#### [windows](https://github.com/pyenv-win/pyenv-win)
+`docker build -t hoover-bot .`
 
-### install poetry
+`docker run --env-file ./.env -d hoover-bot`
+
+### running locally
+
+#### install pyenv
+
+##### [*nix](https://github.com/pyenv/pyenv)
+
+##### [windows](https://github.com/pyenv-win/pyenv-win)
+
+#### install poetry
 
 `pyenv install 3.11`
 
@@ -28,7 +39,7 @@ ___
 
 install [poetry 1.4^](https://python-poetry.org/docs/)
 
-### run program
+#### run program
 
 `poetry install`
 
