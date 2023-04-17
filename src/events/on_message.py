@@ -20,8 +20,10 @@ class OnMessage(ActionHandler):
         match self.msg.content.lower():
             case "$hello":
                 return "Hello!"
-            case n if "hitler" in n:
+            case s if "hitler" in s:
                 return "HITLER!"
+            case s if " 420 " in s:
+                return "Blaze it!"
 
     async def action(self):
         if self.msg.author == self.bot.user:
