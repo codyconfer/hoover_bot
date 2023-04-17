@@ -10,7 +10,7 @@ history_limit: int = 1000
 match_map = {
     bot_testing_id: "open.spotify.com",
     spotify_id: "open.spotify.com",
-    youtube_id: False,
-    apple_music_id: False,
+    youtube_id: ["youtube.com", "youtu.be"],
+    apple_music_id: "music.apple.com",
     soundcloud_id: "soundcloud.com",
 }
