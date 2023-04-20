@@ -26,6 +26,8 @@ class OnMessage(ActionHandler):
                 return "Blaze it!"
             case s if "4" in s and "20" in s:
                 return "Blaze it!"
+            case s if "april showers bring may flowers" in s:
+                return "...and the mayflower brought way too many fucking white people"
 
     async def action(self):
         if self.msg.author == self.bot.user:
