@@ -22,7 +22,7 @@ class OnMessage(ActionHandler):
                 return "Hello!"
             case s if "hitler" in s:
                 return "HITLER!"
-            case s if "420" in re.sub(r'\W+', '', s):
+            case s if "420" in re.sub(r"\W+", "", s):
                 return "Blaze it!"
 
     async def action(self):
