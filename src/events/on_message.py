@@ -24,6 +24,8 @@ class OnMessage(ActionHandler):
                 return "HITLER!"
             case s if "420" in ''.join(filter(str.isalnum, s)):
                 return "Blaze it!"
+            case s if "4" in s and "20" in s:
+                return "Blaze it!"
 
     async def action(self):
         if self.msg.author == self.bot.user:
