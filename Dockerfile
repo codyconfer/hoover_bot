@@ -17,10 +17,10 @@ RUN poetry config virtualenvs.create false
 # Copy source
 WORKDIR /app
 COPY pyproject.toml poetry.lock README.md ./
-COPY hooverbot ./src
+COPY ./hooverbot ./hooverbot
 
 # Install dependencies
 RUN poetry install
 
 # Run
-ENTRYPOINT ["poetry", "run", "python", "./src/main.py"]
+ENTRYPOINT ["poetry", "run", "python", "./hooverbot/main.py"]

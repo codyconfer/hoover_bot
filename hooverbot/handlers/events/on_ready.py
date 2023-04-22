@@ -1,7 +1,7 @@
 import logging
 from discord.ext import commands
 from hooverbot.handlers.handler import Handler
-from hooverbot.logging.console import COLORS, contextualize
+from hooverbot.logger.console import COLORS, contextualize
 
 log = logging.getLogger()
 
