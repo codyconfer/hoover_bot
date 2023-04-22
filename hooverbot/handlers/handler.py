@@ -5,7 +5,7 @@ from discord.ext import commands
 log = logging.getLogger()
 
 
-class ActionHandler(ABC):
+class Handler(ABC):
     bot: commands.Bot
 
     def __init__(self, _bot: commands.Bot):

@@ -1,13 +1,12 @@
 import logging
 from discord.ext import commands
-from discord.message import Message
-from action_handler import ActionHandler
-from console import COLORS, contextualize
+from hooverbot.handlers.handler import Handler
+from hooverbot.logging.console import COLORS, contextualize
 
 log = logging.getLogger()
 
 
-class OnReady(ActionHandler):
+class OnReady(Handler):
     def __init__(self, _bot: commands.Bot):
         super().__init__(_bot)
 

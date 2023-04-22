@@ -1,15 +1,15 @@
 import logging
 from discord.ext import commands
 from discord.message import Message
-from action_handler import ActionHandler
-from actions.sort_links import SortLinks
-from channels import general_id
-from actions.log_formatters import log_response, log_incoming
+from hooverbot.handlers.handler import Handler
+from hooverbot.handlers.actions.sort_links import SortLinks
+from hooverbot.channels import general_id
+from hooverbot.logging.log_formatters import log_response, log_incoming
 
 log = logging.getLogger()
 
 
-class OnMessage(ActionHandler):
+class OnMessage(Handler):
     msg: Message
 
     def __init__(self, _bot: commands.Bot, message: Message):
@@ -24,7 +24,7 @@ class OnMessage(ActionHandler):
                 return "HITLER!"
             case s if "420" in "".join(filter(str.isalnum, s)):
                 return "Blaze it!"
-            case s if "4 " in s and " 20" in s:
+            case s if "4" in s and "20" in s:
                 return "Blaze it!"
             case s if "april showers bring may flowers" in s:
                 return "...and the mayflower brought way too many fucking white people"
