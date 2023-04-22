@@ -4,7 +4,7 @@ from discord.message import Message
 from hooverbot.handlers.handler import Handler
 from hooverbot.handlers.actions.sort_links import SortLinks
 from hooverbot.channels import general_id
-from hooverbot.logging.log_formatters import log_response, log_incoming
+from hooverbot.logger.log_formatters import log_response, log_incoming
 
 log = logging.getLogger()
 

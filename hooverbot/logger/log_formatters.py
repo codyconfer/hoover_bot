@@ -1,4 +1,4 @@
-from hooverbot.logging.console import COLORS, contextualize
+from hooverbot.logger.console import COLORS, contextualize
 
 offset = 0
 offset_space = " " * offset

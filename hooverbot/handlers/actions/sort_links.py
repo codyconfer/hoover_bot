@@ -12,7 +12,7 @@ from hooverbot.channels import (
     bot_testing_id,
     history_limit,
 )
-from hooverbot.logging.log_formatters import log_response
+from hooverbot.logger.log_formatters import log_response
 
 log = logging.getLogger()
 
