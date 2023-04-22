@@ -1,16 +1,14 @@
 import logging
 from discord.ext.commands import Context
 from discord.ext import commands
-from discord.message import Message
-from action_handler import ActionHandler
-from actions.sort_links import SortLinks
-from console import COLORS, contextualize
-from channels import general_id, history_limit
+from hooverbot.handlers.handler import Handler
+from hooverbot.handlers.actions.sort_links import SortLinks
+from hooverbot.channels import general_id, history_limit
 
 log = logging.getLogger()
 
 
-class Clean(ActionHandler):
+class Clean(Handler):
     ctx: Context
 
     def __init__(self, _bot: commands.Bot, _ctx: Context):

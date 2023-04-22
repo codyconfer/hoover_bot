@@ -1,11 +1,9 @@
 import logging
 import re
-from discord.ext.commands import Context, Bot
 from discord.ext import commands
 from discord.message import Message
-from action_handler import ActionHandler
-from console import COLORS, contextualize
-from channels import (
+from hooverbot.handlers.handler import Handler
+from hooverbot.channels import (
     match_map,
     apple_music_id,
     spotify_id,
@@ -14,12 +12,12 @@ from channels import (
     bot_testing_id,
     history_limit,
 )
-from actions.log_formatters import log_response
+from hooverbot.logging.log_formatters import log_response
 
 log = logging.getLogger()
 
 
-class SortLinks(ActionHandler):
+class SortLinks(Handler):
     message: Message
 
     def __init__(self, _bot: commands.Bot, _message: Message):

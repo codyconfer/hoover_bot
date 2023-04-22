@@ -17,7 +17,7 @@ RUN poetry config virtualenvs.create false
 # Copy source
 WORKDIR /app
 COPY pyproject.toml poetry.lock README.md ./
-COPY ./src ./src
+COPY hooverbot ./src
 
 # Install dependencies
 RUN poetry install
