@@ -30,6 +30,10 @@ class OnMessage(Handler):
                 return "...and the mayflower brought way too many fucking white people"
             case s if "bot wildin" in s:
                 return "we out here!"
+            case s if "gimme dat" in s:
+                return "https://media.tenor.com/aQdtUhPzrNQAAAAC/itysl-gimme.gif"
+            case s if "gimme that" in s:
+                return "https://media.tenor.com/aQdtUhPzrNQAAAAC/itysl-gimme.gif"
 
     async def action(self):
         if self.msg.author == self.bot.user:
