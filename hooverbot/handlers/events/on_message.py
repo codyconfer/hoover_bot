@@ -32,7 +32,11 @@ class OnMessage(Handler):
                 return "we out here!"
             case s if "gimme dat" in s:
                 return "https://media.tenor.com/aQdtUhPzrNQAAAAC/itysl-gimme.gif"
+            case s if "gimmie dat" in s:
+                return "https://media.tenor.com/aQdtUhPzrNQAAAAC/itysl-gimme.gif"
             case s if "gimme that" in s:
+                return "https://media.tenor.com/aQdtUhPzrNQAAAAC/itysl-gimme.gif"
+            case s if "gimmie that" in s:
                 return "https://media.tenor.com/aQdtUhPzrNQAAAAC/itysl-gimme.gif"
 
     async def action(self):
