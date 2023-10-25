@@ -26,6 +26,8 @@ class OnMessage(Handler):
                 return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4LZhgvo78i0cGaZq_U7R_xJhnTkkhTcZLYg&usqp=CAU"
             case s if "chemtrails" in s:
                 return "https://img.thedailybeast.com/image/upload/c_crop,d_placeholder_euli9k,h_1687,w_3000,x_0,y_0/dpr_1.5/c_limit,w_1044/fl_lossy,q_auto/v1570465280/191007-weill-chemtrails-greta-tease_g99nr3"
+            case s if "biden" in s:
+                return "https://media.discordapp.net/attachments/1153384689298591785/1166544272078684170/image0.jpg?ex=654ae003&is=65386b03&hm=dd668f0230d2a5dc00ee74aab58609d8e4c307a7466f71cbe8e50b30cd948fc4&=&width=1130&height=1124"
             case s if "420" in "".join(filter(str.isalnum, s)):
                 return "Blaze it!"
             case s if "4" in s and "20" in s:
