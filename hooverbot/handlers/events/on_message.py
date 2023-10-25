@@ -26,6 +26,8 @@ class OnMessage(Handler):
                 return "Blaze it!"
             case s if "4" in s and "20" in s:
                 return "Blaze it!"
+            case s if "69" in "".join(filter(str.isalnum, s)):
+                return "https://media0.giphy.com/media/26gspipWnu59srmM0/giphy.gif?cid=ecf05e47z383wujy8jqne6pzwx7u70vt69rdk12v00gjljbl&ep=v1_gifs_search&rid=giphy.gif&ct=g"
             case s if "april showers bring may flowers" in s:
                 return "...and the mayflower brought way too many fucking white people"
             case s if "bot wildin" in s:
