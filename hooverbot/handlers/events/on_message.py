@@ -21,7 +21,7 @@ class OnMessage(Handler):
             case "$hello":
                 return "Hello!"
             case s if "hitler" in s:
-                return "HITLER!"
+                return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4LZhgvo78i0cGaZq_U7R_xJhnTkkhTcZLYg&usqp=CAU"
             case s if "420" in "".join(filter(str.isalnum, s)):
                 return "Blaze it!"
             case s if "4" in s and "20" in s:
