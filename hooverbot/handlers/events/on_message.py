@@ -20,6 +20,8 @@ class OnMessage(Handler):
         match self.msg.content.lower():
             case "$hello":
                 return "Hello!"
+            case s if "china" in s:
+                return "https://miro.medium.com/v2/resize:fit:748/format:webp/1*73DTaU64tQ4kv1d6fRl_GA.png"
             case s if "hitler" in s:
                 return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4LZhgvo78i0cGaZq_U7R_xJhnTkkhTcZLYg&usqp=CAU"
             case s if "420" in "".join(filter(str.isalnum, s)):
