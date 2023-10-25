@@ -24,6 +24,8 @@ class OnMessage(Handler):
                 return "https://miro.medium.com/v2/resize:fit:748/format:webp/1*73DTaU64tQ4kv1d6fRl_GA.png"
             case s if "hitler" in s:
                 return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4LZhgvo78i0cGaZq_U7R_xJhnTkkhTcZLYg&usqp=CAU"
+            case s if "chemtrails" in s:
+                return "https://img.thedailybeast.com/image/upload/c_crop,d_placeholder_euli9k,h_1687,w_3000,x_0,y_0/dpr_1.5/c_limit,w_1044/fl_lossy,q_auto/v1570465280/191007-weill-chemtrails-greta-tease_g99nr3"
             case s if "420" in "".join(filter(str.isalnum, s)):
                 return "Blaze it!"
             case s if "4" in s and "20" in s:
