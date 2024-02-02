@@ -17,16 +17,16 @@ class OnMessage(Handler):
         self.msg = message
 
     def match_response(self):
-        match self.msg.content.lower():
+        match self.msg.content.lower().replace(' ', ''):
             case "$hello":
                 return "Hello!"
             case s if "tebow" in s:
                 return "https://cdn.discordapp.com/attachments/1095041572917227612/1178074884102950953/image0.gif?ex=6574d2bb&is=65625dbb&hm=573d7776b74b3e0a218f1ff0b91b789af60af0807d9b85890c1e67bbf5cb2431&"
             case s if "saban" in s:
                 return "https://tenor.com/view/nick-saban-roll-tide-angry-gif-15695210"
-            case s if "jordan travis" in s:
+            case s if "jordantravis" in s:
                 return "https://static.stereogum.com/uploads/2023/07/Drake-wheelchair-1688583080.jpg"
-            case s if "crab legs" in s:
+            case s if "crablegs" in s:
                 return "https://cdn.vox-cdn.com/thumbor/uNTa5b3gtPa48uOjLgRpFPf2arg=/0x13:592x408/1400x1050/filters:focal(0x13:592x408):format(jpeg)/cdn.vox-cdn.com/uploads/chorus_image/image/32368497/BmeiXAvCEAAFN8A.0.jpg"
             case s if "china" in s:
                 return "https://miro.medium.com/v2/resize:fit:748/format:webp/1*73DTaU64tQ4kv1d6fRl_GA.png"
@@ -42,17 +42,17 @@ class OnMessage(Handler):
                 return "Blaze it!"
             case s if "69" in "".join(filter(str.isalnum, s)):
                 return "https://media0.giphy.com/media/26gspipWnu59srmM0/giphy.gif?cid=ecf05e47z383wujy8jqne6pzwx7u70vt69rdk12v00gjljbl&ep=v1_gifs_search&rid=giphy.gif&ct=g"
-            case s if "april showers bring may flowers" in s:
+            case s if "aprilshowersbringmayflowers" in s:
                 return "...and the mayflower brought way too many fucking white people"
-            case s if "bot wildin" in s:
+            case s if "botwildin" in s:
                 return "we out here!"
-            case s if "gimme dat" in s:
+            case s if "gimmedat" in s:
                 return "https://media.tenor.com/aQdtUhPzrNQAAAAC/itysl-gimme.gif"
-            case s if "gimmie dat" in s:
+            case s if "gimmiedat" in s:
                 return "https://media.tenor.com/aQdtUhPzrNQAAAAC/itysl-gimme.gif"
-            case s if "gimme that" in s:
+            case s if "gimmethat" in s:
                 return "https://media.tenor.com/aQdtUhPzrNQAAAAC/itysl-gimme.gif"
-            case s if "gimmie that" in s:
+            case s if "gimmiethat" in s:
                 return "https://media.tenor.com/aQdtUhPzrNQAAAAC/itysl-gimme.gif"
 
     async def action(self):
