@@ -1,5 +1,5 @@
-# Use python-3.11-slim as base image
-FROM python:3.11-slim as base
+# Use python-3.14-slim as base image
+FROM python:3.14-slim as base
 
 LABEL authors="codyconfer"
 
@@ -9,7 +9,7 @@ ENV PYTHONFAULTHANDLER=1 \
     PYTHONUNBUFFERED=1
 
 # Install poetry
-RUN pip install 'poetry==1.4.2'
+RUN pip install 'poetry==2.4.1'
 
 # Disable virtualenv creation
 RUN poetry config virtualenvs.create false

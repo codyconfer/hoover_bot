@@ -50,7 +50,7 @@ class SortLinks(Handler):
         return f"{message_header} > {message_urls}"
 
     def match_url(self, key: int, msg: str):
-        url_rexp = "(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])"
+        url_rexp = r"(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])"
         msg_match = re.search(url_rexp, msg)
         urls = []
         if msg_match:
