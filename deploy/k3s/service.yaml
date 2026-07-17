@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hoover-bot
+  namespace: hoover-bot
+  labels:
+    app: hoover-bot
+  # The bot is outbound-only (no inbound traffic); this ClusterIP exists solely
+  # so the cluster's Prometheus can scrape the metrics port. These annotations
+  # assume annotation-based scrape discovery — drop them or add a ServiceMonitor
+  # if the observability stack uses the Prometheus Operator instead.
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9090"
+spec:
+  type: ClusterIP
+  selector:
+    app: hoover-bot
+  ports:
+    - name: metrics
+      port: 9090
+      targetPort: metrics

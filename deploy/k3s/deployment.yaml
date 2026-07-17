@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hoover-bot
+  namespace: hoover-bot
+  labels:
+    app: hoover-bot
+spec:
+  # A Discord bot holds a single gateway connection; two live pods would double
+  # every message handler. Recreate tears down the old pod before the new one
+  # starts on redeploy.
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: hoover-bot
+  template:
+    metadata:
+      labels:
+        app: hoover-bot
+    spec:
+      containers:
+        - name: hoover-bot
+          # name+tag are overridden by kustomization.yaml (images[].newName /
+          # newTag) to the in-cluster registry ref + an immutable per-build tag;
+          # the value here is only a placeholder.
+          image: docker.io/library/hoover-bot:dev
+          # Pulled from the in-cluster registry (10.3.3.69:5000). Tags are
+          # immutable per build, so IfNotPresent avoids a needless re-pull.
+          imagePullPolicy: IfNotPresent
+          env:
+            # pydantic-settings reads TOKEN straight from the environment; the
+            # value comes from the CI-applied Secret (never committed).
+            - name: TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: hooverbot-secrets
+                  key: TOKEN
+          ports:
+            - name: metrics
+              containerPort: 9090
+          # No HTTP /healthz; the prometheus_client metrics server binds 9090
+          # before bot.run(), so a TCP-up check is a valid liveness signal.
+          livenessProbe:
+            tcpSocket:
+              port: metrics
+            initialDelaySeconds: 5
+            periodSeconds: 20
+          readinessProbe:
+            tcpSocket:
+              port: metrics
+            initialDelaySeconds: 3
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
