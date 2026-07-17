@@ -26,6 +26,17 @@ ___
 
 ___
 
+## deploying
+
+pushes to `main` build and deploy to the k3s cluster on host **yggdrasil** via a
+self-hosted GitHub Actions runner (`.github/workflows/deploy.yml`).
+
+see [`deploy/k3s/README.md`](./deploy/k3s/README.md) for the flow and manifests.
+
+- requires a repo Actions secret `DISCORD_TOKEN` (the bot token).
+
+___
+
 ## formatting
 
 to comply with code standards when developing for this repo.

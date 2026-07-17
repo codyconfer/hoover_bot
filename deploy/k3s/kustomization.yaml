@@ -1,0 +1,22 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: hoover-bot
+
+resources:
+  - namespace.yaml
+  - deployment.yaml
+  - service.yaml
+
+# Pin the image tag here in one place. Use an IMMUTABLE tag (a commit SHA) and
+# never reuse one: with a fixed tag like `latest`, a pushed image with an
+# unchanged reference leaves the deployment's image field the same, so no
+# rollout fires and the deploy silently keeps running the old image. CI
+# (.github/workflows/deploy.yml) overwrites newTag with the commit SHA. The
+# image is built by an in-cluster buildkit and pushed to the in-cluster
+# registry at 10.3.3.69:5000; the kubelet pulls from there (nodes trust it as
+# an insecure registry via /etc/rancher/k3s/registries.yaml).
+images:
+  - name: docker.io/library/hoover-bot
+    newName: 10.3.3.69:5000/hoover-bot
+    newTag: dev

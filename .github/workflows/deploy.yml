@@ -1,0 +1,102 @@
+name: deploy
+
+# CI/CD for the k3s cluster on host "yggdrasil".
+#
+# check  -> GitHub-hosted runner: fast feedback (lint + manifest render). No load
+#           on the homelab.
+# deploy -> self-hosted runner *pods* managed by Actions Runner Controller (ARC)
+#           inside the cluster (org-wide scale set "yggdrasil-runners", namespace
+#           arc-runners). The pod:
+#             1. builds the image with an in-cluster buildkit (no docker daemon),
+#             2. pushes it to the in-cluster registry (10.3.3.69:5000), which the
+#                nodes trust as insecure via /etc/rancher/k3s/registries.yaml,
+#             3. deploys with kubectl using the pod's own ServiceAccount
+#                (in-cluster config); cluster RBAC scopes it to deploy resources.
+#
+# Cluster-side prerequisites (provisioned once from the yggdrasil repo):
+#   - ARC controller + the "yggdrasil-runners" scale set (GitHub App auth, org URL).
+#   - An in-cluster buildkit Deployment/Service (buildkit.arc-runners.svc:1234).
+#   - An in-cluster registry at 10.3.3.69:5000 + node registries.yaml trust.
+#   - RBAC binding the runner ServiceAccount to deploy cluster-wide.
+#
+# Repo prerequisite: an Actions secret DISCORD_TOKEN holding the bot token; the
+# deploy job materializes it into the k8s Secret hooverbot-secrets.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+# Serialize deploys against the shared yggdrasil cluster.
+concurrency:
+  group: yggdrasil-deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Poetry
+        run: pipx install poetry
+      - name: Install dependencies
+        run: poetry install
+      - name: Black format check
+        run: poetry run black --check .
+      - name: Validate k3s manifests render
+        run: kubectl kustomize deploy/k3s > /dev/null
+
+  deploy:
+    needs: check
+    runs-on: yggdrasil-runners
+    env:
+      REGISTRY: 10.3.3.69:5000
+      BUILDKIT_ADDR: tcp://buildkit.arc-runners.svc:1234
+      BUILDKIT_VERSION: v0.15.2
+      KUBECTL_VERSION: v1.30.5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compute immutable image tag
+        id: tag
+        run: echo "tag=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+
+      # Stock ARC runner image ships neither buildctl nor kubectl; fetch both to
+      # a writable temp dir on PATH (no root in the runner pod).
+      - name: Install buildctl + kubectl
+        run: |
+          mkdir -p "$RUNNER_TEMP/bin"
+          curl -fsSL "https://github.com/moby/buildkit/releases/download/${BUILDKIT_VERSION}/buildkit-${BUILDKIT_VERSION}.linux-amd64.tar.gz" \
+            | tar -xz -C "$RUNNER_TEMP" bin/buildctl
+          curl -fsSL -o "$RUNNER_TEMP/bin/kubectl" \
+            "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl"
+          chmod +x "$RUNNER_TEMP/bin/buildctl" "$RUNNER_TEMP/bin/kubectl"
+          echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
+
+      - name: Build image and push to the in-cluster registry
+        run: |
+          buildctl --addr "$BUILDKIT_ADDR" build \
+            --frontend dockerfile.v0 \
+            --local context=. \
+            --local dockerfile=. \
+            --output "type=image,name=${REGISTRY}/hoover-bot:${{ steps.tag.outputs.tag }},push=true,registry.insecure=true"
+
+      - name: Ensure namespace + Discord token Secret
+        run: |
+          kubectl create namespace hoover-bot \
+            --dry-run=client -o yaml | kubectl apply -f -
+          kubectl create secret generic hooverbot-secrets \
+            -n hoover-bot --from-literal=TOKEN="${{ secrets.DISCORD_TOKEN }}" \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Pin the built tag and deploy
+        run: |
+          sed -i "s|newTag:.*|newTag: ${{ steps.tag.outputs.tag }}|" deploy/k3s/kustomization.yaml
+          kubectl apply -k deploy/k3s
+          kubectl -n hoover-bot rollout status deploy/hoover-bot --timeout=180s
