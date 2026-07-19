@@ -1,12 +1,11 @@
 import logging
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class _Config(BaseSettings):
     TOKEN: str
 
-    class Config:
-        env_file = ".env"
+    model_config = SettingsConfigDict(env_file=".env")
 
 
 CONFIG = _Config()
