@@ -17,7 +17,7 @@ class OnMessage(Handler):
         self.msg = message
 
     def match_response(self):
-        match self.msg.content.lower().replace(' ', ''):
+        match self.msg.content.lower().replace(" ", ""):
             case "$hello":
                 return "Hello!"
             case s if "tebow" in s:
